@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/bobosneefdev/rust-items-json",
+  "commit": "1204329518584db8e7f242e0f5671edeebf9d18e",
+  "files": [
+    "data/items.json",
+    "data/loot-probabilities.json",
+    "data/meta.json",
+    "data/icons/"
+  ],
+  "note": "Data and icons belong to Facepunch Studios."
+}
