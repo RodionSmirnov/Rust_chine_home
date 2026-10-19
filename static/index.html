@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rust • Loot Finder</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><div class="logo">R<span>UST</span> / LOOT FINDER</div><span class="tag">СПРАВОЧНИК ВЫЖИВШЕГО</span></header>
+<section class="intro"><p class="eyebrow">ЗНАЙ, ЧТО ИЩЕШЬ</p><h1>Каждый ящик.<br><em>Каждый шанс.</em></h1><p>Выбери контейнер и узнай, какие предметы можно найти внутри.</p></section>
+<section class="toolbar" aria-label="Фильтры"><label>КОНТЕЙНЕР<select id="crate"></select></label><label class="search">НАЙТИ ПРЕДМЕТ<input id="search" placeholder="Название предмета…" type="search"></label><label>СОРТИРОВКА<select id="sort"><option value="desc">Сначала частые</option><option value="asc">Сначала редкие</option><option value="name">По названию</option></select></label><button id="refresh">↻ Обновить</button></section>
+<div class="summary"><h2 id="title">Содержимое ящика</h2><span id="count"></span></div>
+<p id="status" role="status" aria-live="polite"></p><div id="grid" class="grid"></div>
+<section class="notes"><p>Шанс относится к отдельному предмету: сумма процентов не обязана равняться 100%. Таблицы могут отличаться на модифицированных серверах. Изображения загружаются с сайта источника; при недоступности показывается заглушка.</p><p id="source"></p><details><summary>Импортировать сохранённую таблицу</summary><p>Открой страницу выбранного контейнера на RustClash Wiki, сохрани её как HTML и выбери файл. Импорт заменяет кэш выбранного контейнера; его соответствие выбранному ящику проверяй самостоятельно.</p><input id="import" type="file" accept=".html,.htm,text/html"></details></section>
+<footer>RUST LOOT FINDER <span>Неофициальный справочник · Rust принадлежит Facepunch Studios</span></footer>
+</main><script src="/main.js"></script></body></html>
