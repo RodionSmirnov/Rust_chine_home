@@ -6,7 +6,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from http.server import ThreadingHTTPServer
 
-from catalog import Catalog, DATA, percentage
+from catalog import Catalog, DATA, percentage, selected_loot
 from app import Handler
 
 
@@ -51,6 +51,40 @@ class CatalogueTests(unittest.TestCase):
         self.assertEqual(percentage(.000001), '<0,01 %')
         self.assertEqual(percentage(1), '100 %')
 
+    def test_russian_database_names_are_used(self):
+        self.assertEqual(len(self.catalog.translations), 638)
+        for shortname, translated in self.catalog.translations.items():
+            self.assertEqual(self.catalog.item(shortname)['name'], translated)
+        self.assertEqual(self.catalog.item('hat.wolf')['name'], 'Шапка из волка')
+
+    def test_only_screenshot_containers_are_included(self):
+        selection = self.catalog.selection
+        self.assertEqual(len(selection), 45)
+        self.assertEqual(len({row['id'] for row in selection}), 45)
+        self.assertEqual(len(self.catalog.paths), 42)
+        self.assertEqual(set(self.catalog.loot), set(self.catalog.paths.values()))
+        self.assertNotIn('oil_barrel', self.catalog.containers())
+        self.assertNotIn('loot_barrel_1', self.catalog.containers())
+        self.assertEqual(self.catalog.paths['wagon_crate_normal'],
+                         'assets/content/vehicles/trains/wagons/subents/wagon_crate_normal.prefab')
+        self.assertEqual(self.catalog.paths['lab_crate_normal_2'],
+                         'assets/bundled/prefabs/radtown/underwater_labs/crate_normal_2.prefab')
+
+    def test_unavailable_tables_are_not_other_crates(self):
+        for key in ['foodbox2', 'scientist_pt_drybox', 'scientist_rhib_drybox']:
+            response = self.catalog.response(key)
+            self.assertTrue(response['warning'])
+            self.assertEqual(response['items'], [])
+
+    def test_updater_cannot_restore_excluded_containers(self):
+        selected = self.catalog.paths['crate_normal_2']
+        unwanted = 'assets/bundled/prefabs/radtown/oil_barrel.prefab'
+        payload = {'containers': {selected: [], unwanted: []},
+                   'items': {'scrap': [{'container': selected}, {'container': unwanted}]}}
+        result = selected_loot(payload)
+        self.assertEqual(set(result['containers']), {selected})
+        self.assertEqual(result['items']['scrap'], [{'container': selected}])
+
 
 class HTTPTests(unittest.TestCase):
     @classmethod
@@ -69,7 +103,7 @@ class HTTPTests(unittest.TestCase):
     def test_ui_and_catalogue(self):
         self.assertIn('Состояние', urlopen(self.base).read().decode())
         crates = json.load(urlopen(self.base + '/api/crates'))
-        self.assertGreater(len(crates), 100)
+        self.assertEqual(len(crates), 46)  # 45 requested containers plus full item catalogue.
         rows = json.load(urlopen(self.base + '/api/loot?crate=all'))['items']
         self.assertGreater(len(rows), 1000)
         image = next(row['image'] for row in rows if row['image'])

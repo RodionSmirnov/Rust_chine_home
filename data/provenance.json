@@ -7,5 +7,6 @@
     "data/meta.json",
     "data/icons/"
   ],
+  "selection": "config/containers.json; only requested container paths and reverse lookups retained",
   "note": "Data and icons belong to Facepunch Studios."
 }

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "supply_drop",
+    "name": "Аирдроп",
+    "path": "assets/prefabs/misc/supply drop/supply_drop.prefab"
+  },
+  {
+    "id": "crate_basic",
+    "name": "Базовый ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_basic.prefab"
+  },
+  {
+    "id": "wagon_crate_normal",
+    "name": "Вагон - Военный ящик",
+    "path": "assets/content/vehicles/trains/wagons/subents/wagon_crate_normal.prefab"
+  },
+  {
+    "id": "wagon_crate_normal_2",
+    "name": "Вагон - Обычный ящик",
+    "path": "assets/content/vehicles/trains/wagons/subents/wagon_crate_normal_2.prefab"
+  },
+  {
+    "id": "wagon_crate_normal_2_food",
+    "name": "Вагон - Обычный ящик для продуктов",
+    "path": "assets/content/vehicles/trains/wagons/subents/wagon_crate_normal_2_food.prefab"
+  },
+  {
+    "id": "wagon_crate_normal_2_medical",
+    "name": "Вагон - Обычный ящик с медициной",
+    "path": "assets/content/vehicles/trains/wagons/subents/wagon_crate_normal_2_medical.prefab"
+  },
+  {
+    "id": "crate_normal",
+    "name": "Военный ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_normal.prefab"
+  },
+  {
+    "id": "codelockedhackablecrate",
+    "name": "Запертый ящик",
+    "path": "assets/prefabs/deployable/chinooklockedcrate/codelockedhackablecrate.prefab"
+  },
+  {
+    "id": "codelockedhackablecrate_oilrig",
+    "name": "Запертый ящик - Нефтевышка",
+    "path": "assets/prefabs/deployable/chinooklockedcrate/codelockedhackablecrate_oilrig.prefab"
+  },
+  {
+    "id": "foodbox",
+    "name": "Коробка с едой",
+    "path": "assets/bundled/prefabs/radtown/foodbox.prefab"
+  },
+  {
+    "id": "crate_normal_2",
+    "name": "Обычный ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_normal_2.prefab"
+  },
+  {
+    "id": "crate_normal_2_food",
+    "name": "Обычный ящик - Еда",
+    "path": "assets/bundled/prefabs/radtown/crate_normal_2_food.prefab"
+  },
+  {
+    "id": "crate_normal_2_medical",
+    "name": "Обычный ящик - Медицина",
+    "path": "assets/bundled/prefabs/radtown/crate_normal_2_medical.prefab"
+  },
+  {
+    "id": "crate_mine",
+    "name": "Обычный ящик - Пещера",
+    "path": "assets/bundled/prefabs/radtown/crate_mine.prefab"
+  },
+  {
+    "id": "lab_crate_normal_2",
+    "name": "Подводная лаборатория - Обычный ящик 1",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_normal_2.prefab"
+  },
+  {
+    "id": "lab_crate_normal",
+    "name": "Подводная лаборатория - Обычный ящик 2",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_normal.prefab"
+  },
+  {
+    "id": "lab_crate_elite",
+    "name": "Подводная лаборатория - Элитный ящик",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_elite.prefab"
+  },
+  {
+    "id": "lab_crate_ammunition",
+    "name": "Подводная лаборатория - Ящик с боеприпасами",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_ammunition.prefab"
+  },
+  {
+    "id": "lab_crate_food_1",
+    "name": "Подводная лаборатория - Ящик с едой 1",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_food_1.prefab"
+  },
+  {
+    "id": "lab_crate_food_2",
+    "name": "Подводная лаборатория - Ящик с едой 2",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_food_2.prefab"
+  },
+  {
+    "id": "lab_vehicle_parts",
+    "name": "Подводная лаборатория - Ящик с запчастями",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/vehicle_parts.prefab"
+  },
+  {
+    "id": "lab_crate_tools",
+    "name": "Подводная лаборатория - Ящик с инструментами",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_tools.prefab"
+  },
+  {
+    "id": "lab_tech_parts_1",
+    "name": "Подводная лаборатория - Ящик с компонентами уровня 2",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/tech_parts_1.prefab"
+  },
+  {
+    "id": "lab_tech_parts_2",
+    "name": "Подводная лаборатория - Ящик с компонентами уровня 3",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/tech_parts_2.prefab"
+  },
+  {
+    "id": "lab_crate_medical",
+    "name": "Подводная лаборатория - Ящик с медициной",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_medical.prefab"
+  },
+  {
+    "id": "lab_crate_fuel",
+    "name": "Подводная лаборатория - Ящик с топливом",
+    "path": "assets/bundled/prefabs/radtown/underwater_labs/crate_fuel.prefab"
+  },
+  {
+    "id": "crate_underwater_basic",
+    "name": "Подводный базовый ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_underwater_basic.prefab"
+  },
+  {
+    "id": "crate_underwater_advanced",
+    "name": "Подводный улучшенный ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_underwater_advanced.prefab"
+  },
+  {
+    "id": "food_cache_001",
+    "name": "Тайник с едой 1",
+    "path": "assets/prefabs/misc/food cache/food_cache_001.prefab"
+  },
+  {
+    "id": "food_cache_002",
+    "name": "Тайник с едой 2",
+    "path": "assets/prefabs/misc/food cache/food_cache_002.prefab"
+  },
+  {
+    "id": "food_cache_003",
+    "name": "Тайник с едой 3",
+    "path": "assets/prefabs/misc/food cache/food_cache_003.prefab"
+  },
+  {
+    "id": "food_cache_004",
+    "name": "Тайник с едой 4",
+    "path": "assets/prefabs/misc/food cache/food_cache_004.prefab"
+  },
+  {
+    "id": "food_cache_005",
+    "name": "Тайник с едой 5",
+    "path": "assets/prefabs/misc/food cache/food_cache_005.prefab"
+  },
+  {
+    "id": "minecart",
+    "name": "Шахтёрская вагонетка",
+    "path": "assets/bundled/prefabs/radtown/minecart.prefab"
+  },
+  {
+    "id": "crate_elite",
+    "name": "Элитный ящик",
+    "path": "assets/bundled/prefabs/radtown/crate_elite.prefab"
+  },
+  {
+    "id": "bradley_crate",
+    "name": "Элитный ящик - Бредли",
+    "path": "assets/prefabs/npc/m2bradley/bradley_crate.prefab"
+  },
+  {
+    "id": "heli_crate",
+    "name": "Элитный ящик - Вертолёт",
+    "path": "assets/prefabs/npc/patrol helicopter/heli_crate.prefab"
+  },
+  {
+    "id": "vehicle_parts",
+    "name": "Ящик с запчастями",
+    "path": "assets/bundled/prefabs/radtown/vehicle_parts.prefab"
+  },
+  {
+    "id": "crate_tools",
+    "name": "Ящик с инструментами",
+    "path": "assets/bundled/prefabs/radtown/crate_tools.prefab"
+  },
+  {
+    "id": "crate_cannons",
+    "name": "Cannon Crate",
+    "path": "assets/bundled/prefabs/radtown/crate_cannons.prefab"
+  },
+  {
+    "id": "crate_basic_jungle",
+    "name": "Crate Basic Jungle",
+    "path": "assets/bundled/prefabs/radtown/crate_basic_jungle.prefab"
+  },
+  {
+    "id": "foodbox2",
+    "name": "Foodbox 2",
+    "path": null
+  },
+  {
+    "id": "codelockedhackablecrate_ghostship",
+    "name": "Locked Crate - Ghostship",
+    "path": "assets/prefabs/deployable/chinooklockedcrate/codelockedhackablecrate_ghostship.prefab"
+  },
+  {
+    "id": "scientist_pt_drybox",
+    "name": "Scientist PT Boat Drybox",
+    "path": null
+  },
+  {
+    "id": "scientist_rhib_drybox",
+    "name": "Scientist RHIB Drybox",
+    "path": null
+  }
+]

@@ -37,8 +37,12 @@ def install(source):
         staged = Path(tmp) / 'data'
         staged.mkdir()
         (staged / 'icons').mkdir()
-        for name in ['items.json', 'loot-probabilities.json', 'meta.json']:
+        for name in ['items.json', 'meta.json']:
             shutil.copy2(source / 'data' / name, staged / name)
+        from catalog import selected_loot
+        full_loot = json.loads((source / 'data/loot-probabilities.json').read_text())
+        filtered = selected_loot(full_loot)
+        (staged / 'loot-probabilities.json').write_text(json.dumps(filtered, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         for item in items:
             icon = source / 'data' / item.get('icon', 'missing')
             if icon.is_file():
@@ -47,6 +51,7 @@ def install(source):
         (staged / 'provenance.json').write_text(json.dumps({
             'repository': REPOSITORY.removesuffix('.git'), 'commit': commit,
             'files': ['data/items.json', 'data/loot-probabilities.json', 'data/meta.json', 'data/icons/'],
+            'selection': 'config/containers.json; only requested container paths and reverse lookups retained',
             'note': 'Data and icons belong to Facepunch Studios.'}, indent=2) + '\n')
         from catalog import Catalog
         catalog = Catalog(staged)
@@ -62,7 +67,7 @@ def install(source):
             if backup.exists():
                 backup.rename(destination)
             raise
-    print(f"База: сборка {meta['build']}, проверка {meta['checked']}, {len(items)} предметов, {len(loot)} контейнеров")
+    print(f"База: сборка {meta['build']}, проверка {meta['checked']}, {len(items)} предметов, {len(filtered['containers'])} таблицы выбранных контейнеров")
     print('Перезапусти app.py, чтобы применить новую базу.')
 
 

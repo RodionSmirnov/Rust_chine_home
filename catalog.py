@@ -8,27 +8,6 @@ CATEGORIES = dict(zip(
      'Items', 'Medical', 'Misc', 'Resources', 'Tool', 'Traps', 'Weapon'],
     ['Боеприпасы', 'Одежда', 'Компоненты', 'Строительство', 'Электричество', 'Еда',
      'Развлечения', 'Предметы', 'Медицина', 'Прочее', 'Ресурсы', 'Инструменты', 'Ловушки', 'Оружие']))
-NAMES = {
-    'crate_basic': 'Простой ящик', 'crate_normal_2': 'Обычный ящик',
-    'crate_normal': 'Военный ящик', 'crate_elite': 'Элитный ящик',
-    'crate_tools': 'Ящик с инструментами', 'crate_normal_2_medical': 'Медицинский ящик',
-    'crate_normal_2_food': 'Продовольственный ящик', 'foodbox': 'Коробка с едой',
-    'supply_drop': 'Груз снабжения', 'codelockedhackablecrate': 'Запертый ящик',
-    'codelockedhackablecrate_oilrig': 'Запертый ящик · нефтяная вышка',
-    'codelockedhackablecrate_ghostship': 'Запертый ящик · корабль-призрак',
-    'bradley_crate': 'Ящик БТР Bradley', 'heli_crate': 'Ящик вертолёта',
-    'loot_barrel_1': 'Бочка · тип 1', 'loot_barrel_2': 'Бочка · тип 2',
-    'loot-barrel-1': 'Бочка · автоспавн 1', 'loot-barrel-2': 'Бочка · автоспавн 2',
-    'oil_barrel': 'Нефтяная бочка', 'crate_underwater_advanced': 'Большой подводный ящик',
-    'crate_underwater_basic': 'Подводный ящик', 'crate_basic_jungle': 'Ящик в джунглях',
-    'crate_mine': 'Шахтёрский ящик', 'crate_shore': 'Прибрежный ящик',
-    'crate_cannons': 'Ящик с пушечными припасами', 'minecart': 'Вагонетка',
-    'vehicle_parts': 'Детали транспорта', 'vehicle_parts_advanced': 'Продвинутые детали транспорта',
-    'crate_ammunition': 'Ящик с боеприпасами', 'crate_medical': 'Медицинский ящик',
-    'crate_fuel': 'Ящик с топливом', 'crate_food_1': 'Продовольствие · тип 1',
-    'crate_food_2': 'Продовольствие · тип 2', 'tech_parts_1': 'Технические детали · тип 1',
-    'tech_parts_2': 'Технические детали · тип 2',
-}
 RU_ITEMS = {
     'scrap': 'Металлолом', 'smgbody': 'Корпус пистолета-пулемёта',
     'metalpipe': 'Металлическая труба', 'metal.refined': 'Металл высокого качества',
@@ -54,14 +33,21 @@ RU_ITEMS = {
 }
 
 
-def container_name(path):
-    key = Path(path).stem
-    name = NAMES.get(key, key.replace('_', ' ').replace('-', ' '))
-    if '/underwater_labs/' in path:
-        name += ' · подводная лаборатория'
-    elif '/modding/' in path:
-        name += ' · моддинг'
-    return name
+CONFIG = DATA.parent / 'config' / 'containers.json'
+LOCALIZATION = DATA.parent / 'localization'
+
+
+def selected_loot(payload):
+    """Keep exactly the requested prefab paths, including reverse lookups."""
+    selection = json.loads(CONFIG.read_text(encoding='utf-8'))
+    wanted = {row['path'] for row in selection if row['path']}
+    containers = {path: rows for path, rows in payload['containers'].items() if path in wanted}
+    reverse = {}
+    for item, rows in payload.get('items', {}).items():
+        kept = [row for row in rows if row['container'] in containers]
+        if kept:
+            reverse[item] = kept
+    return {'containers': containers, 'items': reverse}
 
 
 def percentage(value):
@@ -78,16 +64,18 @@ class Catalog:
         self.provenance = json.loads((self.directory / 'provenance.json').read_text())
         self.items = {x['shortname']: x for x in json.loads((self.directory / 'items.json').read_text())}
         self.loot = json.loads((self.directory / 'loot-probabilities.json').read_text())['containers']
-        paths = sorted(self.loot, key=lambda p: (not p.endswith('/radtown/crate_normal_2.prefab'), container_name(p)))
-        self.paths = {str(i): path for i, path in enumerate(paths)}
+        self.selection = json.loads(CONFIG.read_text(encoding='utf-8'))
+        self.translations = json.loads((LOCALIZATION / 'items.ru.json').read_text(encoding='utf-8'))
+        self.translation_source = json.loads((LOCALIZATION / 'provenance.json').read_text(encoding='utf-8'))
+        self.paths = {row['id']: row['path'] for row in self.selection if row['path'] in self.loot}
 
     def containers(self):
-        return {'all': 'Все предметы · каталог', **{key: container_name(path) for key, path in self.paths.items()}}
+        return {'all': 'Все предметы · каталог', **{row['id']: row['name'] for row in self.selection}}
 
     def item(self, shortname, drop=None):
         raw = self.items[shortname]
         image = self.directory / raw.get('icon', 'missing')
-        row = {'id': shortname, 'name': RU_ITEMS.get(shortname, raw['name']),
+        row = {'id': shortname, 'name': self.translations.get(shortname, RU_ITEMS.get(shortname, raw['name'])),
                'english_name': raw['name'], 'category': CATEGORIES.get(raw['category'], raw['category']),
                'image': '/icons/' + image.name if image.is_file() else '',
                'condition': '—', 'amount': '—', 'chance': None, 'chance_text': 'Не выбран ящик',
@@ -107,8 +95,16 @@ class Catalog:
     def response(self, key):
         if key == 'all':
             rows = [self.item(shortname) for shortname in self.items]
-        else:
+        elif key in self.paths:
             rows = [self.item(drop['item'], drop) for drop in self.loot[self.paths[key]]]
+        elif key in self.containers():
+            rows = []
+        else:
+            raise KeyError(key)
         return {'items': rows, 'meta': self.meta, 'source': self.provenance['repository'],
                 'commit': self.provenance['commit'], 'crate': key, 'offline': True,
-                'total_items': len(self.items), 'total_containers': len(self.paths)}
+                'total_items': len(self.items), 'total_containers': len(self.selection),
+                'available_containers': len(self.paths), 'translation_source': self.translation_source,
+                'translated_items': len(self.translations.keys() & self.items.keys()),
+                'warning': ('Для этого контейнера нет таблицы в текущей базе. Вероятности не подставлены из других ящиков.'
+                            if key != 'all' and key not in self.paths else '')}
